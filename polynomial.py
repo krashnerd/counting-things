@@ -38,6 +38,9 @@ class GeoSeries:
 		self._x_pwr=x_pwr
 		self._pwr=self_pwr
 
+	def canMult(self, other):
+		return isinstance(other, GeoSeries) && other._x_pwr == self._x_pwr
+
 	# def __add__(self, other_geo):
 	# 	if isinstance
 
@@ -46,7 +49,7 @@ class GeoSeries:
 			return 0
 		else:
 			choose_coeff = desired // self._x_pwr
-			return intSol(self._pwr, choose_coeff) 
+			return x_coeff * intSol(self._pwr, choose_coeff) 
 
 # class Poly:
 # 	def __init__(self):
