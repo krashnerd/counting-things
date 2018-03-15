@@ -7,6 +7,13 @@ def choose(x, y):
 def intSol(factors, wanted):
 	return choose(factors + wanted - 1, wanted)
 
+
+class Factors:
+	def __init__(self):
+		
+
+
+
 # class Term:
 # 	def __init__(self, coeff, pwr):
 # 		self._coeff=coeff
