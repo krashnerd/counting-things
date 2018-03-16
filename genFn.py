@@ -2,8 +2,8 @@
 Automated generator of generating function to solve given 
 integer solution problem
 """
-
-from polynomial import *
+from factors import *
+from GeoSeries import *
 
 # class var:
 # 	"""Single m_i for an integer solution problem"""
@@ -19,5 +19,18 @@ from polynomial import *
 
 
 
-# class genFn:
+factors = FactorList()
+
+add_f = factors.add_factor
+#add_f(GeoSeries(1,1,4))
+add_f(BinExp(-1,3,5))
+add_f(BinExp(-1, 3, 2))
+add_f(GeoSeries(1, 2, 4))
+add_f(BinExp(2, 2, 4))
+#add_f(BinExp(1, 2, 4))
+print(factors)
+add_f(BinExp(1,2,1))
+print(factors)
+print(factors.solve(9))
+
 # 	def __init__(self, ):
