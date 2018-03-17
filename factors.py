@@ -19,7 +19,6 @@ class FactorList:
 
 
 	def add_factor(self, factor):
-		print("Adding", factor)
 		"""Adding in a factor to the list of factor. Currently
 		only implemented for binomial expansions and closed-form geometric 
 		series."""
@@ -54,12 +53,35 @@ class FactorList:
 	def inclConst(self, coeff):
 		self._outside_coeff *= coeff
 
-	def multByX(expo):
+	def add_outside_x(self, expo):
 		self._outside_x += expo
+
+	def add_fin_poly(self, min_x, max_x, poly_expo = 1, skip = 1, excl = []):
+		"""Min: lowest power of x, max: highset power of x, poly_expo:
+		what power the polynomial is raised to"""
+
+		#factor out minimum value of x
+		self.add_outside_x(min_x)
+		max_x -= min_x
+		min_x = 0
+
+		count = min_x//skip + 1 # how many nonzero terms in polynomial
+
+		self.add_factor(BinExp(-1, skip * (max_x+1), poly_expo))
+		self.add_factor(GeoSeries(1, skip, poly_expo))
+
+
+
+
+
+
+
+
 
 	def solve(self, which_coeff):
 		"""go from arbitrarily long list of factors to desired coefficient"""
 		def recurSolve(desired, lst):
+			"""Recursively solve for all coefficients"""
 			if(lst==None):
 				lst=self.all_facts()
 			if(len(lst)==0):
@@ -75,6 +97,8 @@ class FactorList:
 				for i in range(0, desired, curr.x_pwr()):
 					res += curr.coeff(i) * recurSolve(desired - i, lst[1:])
 				return res
+
+
 		which_coeff -= self._outside_x
 		return recurSolve(which_coeff,self.all_facts())
 		

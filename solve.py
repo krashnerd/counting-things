@@ -12,6 +12,9 @@ def solve(factors, coeff):
 	for poly in range(len(factors)):
 		for term in poly:
 
+	
+
+
 
 
 

@@ -41,9 +41,9 @@ class Series:
 
 	def string_terms(self):
 		def inclExpo(expo):
-		 	return ("^ %d" % expo if expo != 1 else "")
+		 	return (" ^ %d" % expo if expo != 1 else "")
 		return (str(abs(self._x_coeff))
-		 if self._x_coeff != 1 else "",inclExpo(self._x_pwr),inclExpo(self._pwr))
+		 if abs(self._x_coeff) != 1 else "",inclExpo(self._x_pwr),inclExpo(self._pwr))
 
 
 class BinExp(Series):
@@ -51,7 +51,7 @@ class BinExp(Series):
 		Series.__init__(self,x_coeff, x_pwr, self_pwr)
 	
 	def __str__(self):
-		return "(1 " + oppoSign(-1 * self.x_coeff())+ " %sx%s) %s" % self.string_terms()
+		return "((1 " + oppoSign(-1 * self.x_coeff())+ " %sx%s)%s)" % self.string_terms()
 
 
 
@@ -66,12 +66,11 @@ class BinExp(Series):
 		return int(math.pow(self._x_coeff,
 			adj_term)) * choose(self._pwr,adj_term)
 
-	def canMult(self, other):
+ 	def canMult(self, other):
 		return (isinstance(other, BinExp) and other._x_pwr == self._x_pwr
 			and other._x_coeff == self._x_coeff)
 
 
-			
 
 	def __mul__(self, other):
 		if self.canMult(other):
@@ -89,11 +88,11 @@ class GeoSeries(Series):
 			and other._x_coeff == self._x_coeff)
 
 	def __str__(self):
-		return "(1 / (1 "+oppoSign(self.x_coeff()) + " %sx%s)) %s" % self.string_terms()
+		return "((1 / (1 "+oppoSign(self.x_coeff()) + " %sx%s))%s)" % self.string_terms()
 
 	def __mul__(self, other):
-		if canMult(self, other):
-			return GeoSeries(self, self._x_coeff, self._x_pwr, self._pwr+other._pwr)
+		if self.canMult(other):
+			return GeoSeries(self._x_coeff, self._x_pwr, self._pwr+other._pwr)
 		else:
 			return NotImplemented
 
