@@ -12,11 +12,10 @@ class FactorList:
 		return str(self)
 
 	def __str__(self):
-		return " * ".join(map(str, self.all_facts()))
+		return ("" if self._outside_x == 0 else "x ^ %d * " % self._outside_x) + " * ".join(map(str, self.all_facts()))
 
 	def all_facts(self):
 		return self._binomials+self._geometrics
-
 
 	def add_factor(self, factor):
 		"""Adding in a factor to the list of factor. Currently
@@ -61,7 +60,7 @@ class FactorList:
 		what power the polynomial is raised to"""
 
 		#factor out minimum value of x
-		self.add_outside_x(min_x)
+		self.add_outside_x(min_x * poly_expo)
 		max_x -= min_x
 		min_x = 0
 
@@ -72,30 +71,27 @@ class FactorList:
 
 
 
-
-
-
-
-
-
 	def solve(self, which_coeff):
 		"""go from arbitrarily long list of factors to desired coefficient"""
 		def recurSolve(desired, lst):
 			"""Recursively solve for all coefficients"""
+			if(desired < 0):
+				return 0
 			if(lst==None):
 				lst=self.all_facts()
 			if(len(lst)==0):
 				return 0
 
-			curr = lst[0]
+			get_curr_coeff, pwr = lst[0].get_solve_fn(), lst[0].x_pwr()
 
 			if(len(lst)==1):
-				return self._outside_coeff * curr.coeff(desired)
+				return self._outside_coeff * get_curr_coeff(desired)
 
 			else:
 				res=0
-				for i in range(0, desired, curr.x_pwr()):
-					res += curr.coeff(i) * recurSolve(desired - i, lst[1:])
+				doneZero=False
+				for i in range(0, desired + 1, lst[0].x_pwr()):
+					res += get_curr_coeff(i) * recurSolve(desired - i, lst[1:])
 				return res
 
 

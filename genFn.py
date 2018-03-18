@@ -24,10 +24,15 @@ factors = FactorList()
 add_f = factors.add_factor
 #add_f(GeoSeries(1,1,4))
 
-factors.add_fin_poly(0, 6, 4)
+factors.add_fin_poly(3, 11, 12)
 print(factors)
 
-print(factors.solve(9))
-print(choose(12, 9))
+print(factors.solve(47))
+
+factors2=FactorList()
+factors2.add_fin_poly(0,8,12)
+
+print(factors2.solve(47-36))
+# print(choose(19,7))
 
 # 	def __init__(self, ):
